@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static jakarta.persistence.EnumType.STRING;
 
@@ -17,7 +18,7 @@ public class EmailModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private UUID id;
     private String ownerReaf;
     private String emailFrom;
     private String emailTo;

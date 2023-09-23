@@ -2,6 +2,12 @@ server:
   port: 8080
 
 spring:
+  rabbitmq:
+    host:
+    username:
+    password:
+    queue:
+    port:
   datasource:
     url: jdbc:mysql://localhost:3306/yourdatabase
     username:
@@ -21,3 +27,4 @@ spring:
           auth: true
           starttls:
             enable: true
+
