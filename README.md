@@ -27,4 +27,5 @@ spring:
     password: A_VALID_GOOGLE_APP_PASSWORD
 ```
 
+3. To send emails use the curl of the file ./postman/curl.txt
 
