@@ -1,19 +1,20 @@
 package br.com.kualit.mailservice.services;
 
 import br.com.kualit.mailservice.models.EmailModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
 import static br.com.kualit.mailservice.enums.StatusEmail.ERROR;
 import static br.com.kualit.mailservice.enums.StatusEmail.SENT;
 import static java.time.LocalDateTime.now;
 
+@Component
 public class GmailService implements IEmailSender {
-    private final JavaMailSender sender;
-    public GmailService(JavaMailSender sender) {
-        this.sender = sender;
-    }
+    @Autowired
+    private JavaMailSender sender;
 
     @Override
     public EmailModel sendEmail(EmailModel emailModel) {
