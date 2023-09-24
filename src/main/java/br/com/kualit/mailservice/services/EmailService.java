@@ -19,9 +19,6 @@ public class EmailService implements IEmailService {
     public EmailModel sendEmail(EmailModel emailModel, SMTP smtp) {
         var sender =  factory.newEmailService(smtp);
         sender.sendEmail(emailModel);
-
-
-
         return emailRepository.save(emailModel);
     }
 }

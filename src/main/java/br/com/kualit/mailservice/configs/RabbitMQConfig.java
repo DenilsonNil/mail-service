@@ -1,5 +1,6 @@
 package br.com.kualit.mailservice.configs;
 
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -9,12 +10,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import org.springframework.amqp.core.Queue;
-
 @Configuration
 public class RabbitMQConfig {
-
-
     @Value("${spring.rabbitmq.queue}")
     private String queue;
 
