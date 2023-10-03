@@ -13,9 +13,13 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 public class RabbitMQConfig {
 
+    //First Exchange and first queue
     @Value("${spring.rabbitmq.template.exchange}")
     private String exchange;
     @Bean
@@ -25,14 +29,33 @@ public class RabbitMQConfig {
     @Value("${spring.rabbitmq.queue}")
     private String queue;
 
+    //Using a map to put some arguments before create the queue
     @Bean
     public Queue queue() {
-        return new Queue(queue, true);
+        Map<String, Object> args = new HashMap<>();
+        args.put("x-dead-letter-exchange", "mail-message-dlq");
+        //args.put("x-dead-letter-routing-key", "dead-letter-queue");
+
+        return new Queue(queue, true, false, false, args);
     }
 
     @Bean
     public Binding binding() {
         return BindingBuilder.bind(queue()).to(fanoutExchange());
+    }
+
+    //Exchange and queue DLQ
+    @Bean FanoutExchange fanoutExchangeDLQ() {
+        return new FanoutExchange("mail-message-dlq");
+    }
+    @Bean
+    public Queue queueDLQ() {
+        return new Queue("dead-letter-queue", true);
+    }
+
+    @Bean
+    public Binding bindingDLQ() {
+        return BindingBuilder.bind(queueDLQ()).to(fanoutExchangeDLQ());
     }
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connection){
