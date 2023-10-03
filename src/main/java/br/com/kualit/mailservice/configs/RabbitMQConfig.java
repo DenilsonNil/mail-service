@@ -1,5 +1,8 @@
 package br.com.kualit.mailservice.configs;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -12,6 +15,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
+
+    @Value("${spring.rabbitmq.template.exchange}")
+    private String exchange;
+    @Bean
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange(exchange);
+    }
     @Value("${spring.rabbitmq.queue}")
     private String queue;
 
@@ -20,6 +30,10 @@ public class RabbitMQConfig {
         return new Queue(queue, true);
     }
 
+    @Bean
+    public Binding binding() {
+        return BindingBuilder.bind(queue()).to(fanoutExchange());
+    }
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connection){
         return new RabbitAdmin(connection);
